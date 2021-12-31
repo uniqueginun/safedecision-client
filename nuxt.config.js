@@ -60,6 +60,13 @@ export default {
           user: { url: '/api/user', method: 'get' }
         }
       }
+    },
+
+    redirect: {
+      login: '/auth/login',
+      logout: '/auth/login',
+      callback: '/auth/login',
+      home: '/'
     }
   },
 

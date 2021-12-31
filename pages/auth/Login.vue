@@ -33,6 +33,10 @@
 <script>
 
 export default {
+   middleware: 'auth',
+
+   auth: 'guest',
+
    data() {
       return {
          form: {
@@ -43,6 +47,7 @@ export default {
          error: {}
       }
    },
+
    methods: {
       async login() {
          this.error = {};
@@ -71,6 +76,7 @@ export default {
          }
       }
    },
+   
    computed: {
       emptyForm() {
          return !this.form.email || !this.form.password;
