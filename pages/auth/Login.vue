@@ -21,18 +21,17 @@
             />
          </div>
          <button
-            type="submit" 
+            type="submit"
             class="bg-blue-500 text-white font-semibold py-2 px-10 w-full rounded"
             :class="{ 'opacity-50 cursor-not-allowed': loading || emptyForm }"
             :disabled="loading || emptyForm"
-            >
-            {{ loading ? 'Logging in ...' : 'Login' }}
-         </button>
+         >{{ loading ? 'Logging in ...' : 'Login' }}</button>
       </form>
    </div>
 </template>
 
 <script>
+
 export default {
    data() {
       return {
@@ -51,6 +50,9 @@ export default {
          this.loading = true;
 
          try {
+
+            await this.$axios.get('/sanctum/csrf-cookie');
+
             await this.$auth.loginWith('local', {
                data: this.form
             });
@@ -58,10 +60,13 @@ export default {
             this.$router.push({
                path: '/',
             });
-         } catch (err) {
-            console.log(err);
+         }
+
+         catch (err) {
             this.error = err;
-         } finally {
+         }
+
+         finally {
             this.loading = false;
          }
       }
