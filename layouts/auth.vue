@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-screen bg-gray-200 font-roboto">
-    <AuthSidebar />
+    <AuthSidebar v-if="isAdmin" />
 
     <div class="flex-1 flex flex-col overflow-hidden">
       <AuthHeaderVue />
@@ -22,6 +22,12 @@ export default {
    components: {
       AuthHeaderVue,
       AuthSidebar
+   },
+
+   computed: {
+     isAdmin() {
+       return this.$auth.user.role === "admin"
+     }
    }
 }
 </script>
