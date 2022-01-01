@@ -29,8 +29,6 @@
 
 <script>
 export default {
-   middleware: 'auth',
-
    layout: 'auth',
 }
 </script>
