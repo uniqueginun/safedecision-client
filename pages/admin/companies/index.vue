@@ -1,9 +1,24 @@
 <template>
    <div>
-      <ui-table :header="headerFields" :content="content">
+      <global-modal
+         name="company-form-modal"
+         @before-open="beforeOpen"
+         @closed="companyAction = null"
+      >
+         <CreateForm v-if="companyAction" :company="companyAction" @cancel="closeModal" @updated="actionPerformed" />
+      </global-modal>
+
+      <div class="m-4">
+         <button @click="showCreateModal" class="px-2 py-1 text-white bg-red-500 rounded">Create Company</button>
+      </div>
+
+      <ui-table :header="headerFields" :content="companies" :loading="isLoading">
          <template slot="action" slot-scope="{ item }">
-            <nuxt-link :to="{ name: 'admin.companies.edit', params: { id: item.id } }">Edit</nuxt-link>
-            <button size="sm" color="red" @click="handleDelete(item.id)">Delete</button>
+            <button class="px-2 py-1 text-white bg-green-500 rounded" @click="handleEdit(item)">Edit</button>
+            <button
+               class="px-2 py-1 text-white bg-red-500 rounded"
+               @click="handleDelete(item.id)"
+            >Delete</button>
          </template>
       </ui-table>
    </div>
@@ -11,93 +26,92 @@
 
 <script>
 import UiTable from '~/components/ui/UiTable.vue'
-
-const initialData = [
-   {
-      firstName: "Macsen",
-      lastName: "Schultz",
-      hometown: "Rio de Janeiro",
-      dob: "01/10/1987",
-      created: new Date().getTime(),
-      updated: new Date().getTime(),
-   },
-   {
-      firstName: "Sebastian",
-      lastName: "Cervantes",
-      hometown: "Brisbane",
-      dob: "13/11/1994",
-      created: new Date().getTime(),
-      updated: new Date().getTime(),
-   },
-   {
-      firstName: "Tayyab",
-      lastName: "Lister",
-      hometown: "Perth",
-      dob: "14/12/1997",
-      created: new Date().getTime(),
-      updated: new Date().getTime(),
-   },
-   {
-      firstName: "Anum",
-      lastName: "Warren",
-      hometown: "Manaus",
-      dob: "17/02/1951",
-      created: new Date().getTime(),
-      updated: new Date().getTime(),
-   },
-   {
-      firstName: "Areeba",
-      lastName: "Stein",
-      hometown: "Rome",
-      dob: "18/03/1954",
-      created: new Date().getTime(),
-      updated: new Date().getTime(),
-   },
-   {
-      firstName: "Elvis",
-      lastName: "Ray",
-      hometown: "Lisbon",
-      dob: "08/11/1980",
-      created: new Date().getTime(),
-      updated: new Date().getTime(),
-   }
-]
+import CreateForm from '~/components/company/CreateForm.vue'
 
 export default {
-   components: { UiTable },
-   data: () => ({
-      headerFields: [
-         {
-            name: "firstName",
-            label: "First Name",
-         },
-         {
-            name: "lastName",
-            label: "Last Name",
-         },
-         {
-            name: "hometown",
-            label: "Hometown",
-         },
-         {
-            name: "dob",
-            label: "Data of Birght",
-         },
-         {
-            name: "created",
-            label: "Created",
+   components: { UiTable, CreateForm },
 
-         },
-         {
-            name: "updated",
-            label: "Updated",
-         },
-         {
-            name: "actions",
-            label: "Actions",
-         },
-      ],
-      content: initialData,
-   })
+   async asyncData({ app }) {
+      const { data } = await app.$axios.get('/api/admin/companies')
+
+      return {
+         companies: data
+      }
+   },
+
+   data: () => ({
+      headerFields: ['#', 'Name', 'Products count', 'Actions'],
+
+      isLoading: false,
+
+      companies: [],
+
+      companyAction: null
+   }),
+
+   methods: {
+      handleDelete(id) {
+         this.$swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+         }).then(async (result) => {
+            if (result.isConfirmed) {
+               try {
+                  await this.$store.dispatch('companies/destroy', id)
+                  await this.$swal(
+                     'Deleted!',
+                     'Company has been deleted.',
+                     'success'
+                  )
+                  this.$nuxt.refresh()
+               } catch (error) {
+                  await this.$swal(
+                     'Error!',
+                     'Company was not deleted successfully!',
+                     'error'
+                  )
+               }
+            }
+         })
+      },
+
+      showCreateModal() {
+         this.$modal.show('company-form-modal', {
+            props: {
+               company: { name: '' },
+               action: 'create'
+            }
+         })
+      },
+
+      handleEdit(item) {
+         const { id, name } = item
+
+         this.$modal.show('company-form-modal', {
+            props: {
+               company: { id, name },
+               action: 'update'
+            }
+         })
+      },
+
+      actionPerformed() {
+         this.$modal.hide('company-form-modal')
+         this.$nuxt.refresh()
+      },
+
+      closeModal() {
+         this.$modal.hide('company-form-modal')
+      },
+
+      beforeOpen(event) {
+         this.companyAction = event.params.props
+      },
+   }
 }
 </script>

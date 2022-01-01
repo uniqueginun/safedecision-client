@@ -1,8 +1,9 @@
 <template>
-   <table class="w-full text-left border-collapse">
+   <div v-if="loading">loading...</div>
+   <table v-else class="w-full text-left border-collapse">
       <thead class="border-b">
          <tr>
-            <ui-table-td v-for="(item, index) of header" :key="index" :type="'th'">{{ item.label }}</ui-table-td>
+            <ui-table-td v-for="(item, index) of header" :key="index" :type="'th'">{{ item }}</ui-table-td>
          </tr>
       </thead>
       <tbody>
@@ -20,6 +21,10 @@ export default {
    components: { UiTableTd },
 
    props: {
+      loading: {
+         type: Boolean,
+         default: false,
+      },
       header: {
          type: Array,
          required: true,
