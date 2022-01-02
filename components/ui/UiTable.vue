@@ -11,6 +11,9 @@
             <ui-table-td v-for="(field, key) of Object.keys(item)" :key="key">{{ item[field] }}</ui-table-td>
             <ui-table-td><slot name="action" :item="item"></slot></ui-table-td>
          </tr>
+         <tr v-if="noContent">
+            <td :colspan="header.length" class="text-center">No content</td>
+         </tr>
       </tbody>
    </table>
 </template>
@@ -32,6 +35,12 @@ export default {
       content: {
          type: Array,
          required: true,
+      },
+   },
+
+   computed: {
+      noContent() {
+         return this.content.length === 0
       },
    },
 }
