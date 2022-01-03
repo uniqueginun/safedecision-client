@@ -18,10 +18,14 @@
 
 <script>
 
+import { mapActions } from 'vuex'
+import CrudMixin from '~/mixins/CrudMixin'
 import UiTable from '~/components/ui/UiTable.vue'
 
 export default {
    components: { UiTable },
+
+   mixins: [CrudMixin],
 
    async asyncData({ app }) {
       const response = await app.$axios.get('/api/admin/categories?index=true')
@@ -46,6 +50,10 @@ export default {
    }),
 
    methods: {
+      ...mapActions('categories', {
+         destroy: 'destroy',
+      }),
+
       createCategory() {
          this.$router.push('/admin/categories/create')
       },

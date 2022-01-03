@@ -24,7 +24,7 @@ export default {
 
    async asyncData({ params, app }) {
       try {
-         const { data } = await app.$axios.get(`/api/admin/categories/${params.slug}`);
+         const { data } = await app.$axios.get(`/api/admin/categories/${params.slug}/edit`);
          return { category: data }
       } catch (error) {
          app.$swal('Error', error.message, 'error')

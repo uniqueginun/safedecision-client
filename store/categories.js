@@ -22,6 +22,10 @@ export const actions = {
 
    updateCategory(_, category) {
       return this.$axios.$put(`${categoriesUrlPrefix}/${category.slug}`, category)
+   },
+
+   destroy(_, id) {
+      return this.$axios.$delete(`${categoriesUrlPrefix}/${id}`)
    }
 }
 
