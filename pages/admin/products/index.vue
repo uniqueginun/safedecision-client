@@ -1,35 +1,55 @@
 <template>
    <div class="mt-4">
-      <h4 class="text-gray-600">Products</h4>
 
-      <div class="mt-6">
-         <div class="my-6 overflow-hidden bg-white rounded-md shadow">
-            <table class="w-full text-left border-collapse">
-               <thead class="border-b">
-                  <tr>
-                     <th
-                        class="px-5 py-3 text-sm font-medium text-gray-100 uppercase bg-indigo-800"
-                     >City</th>
-                     <th
-                        class="px-5 py-3 text-sm font-medium text-gray-100 uppercase bg-indigo-800"
-                     >Total orders</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr class="hover:bg-gray-200">
-                     <td class="px-6 py-4 text-lg text-gray-700 border-b">test city</td>
-                     <td class="px-6 py-4 text-gray-500 border-b">test address</td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
+      <div class="p-4">
+         <button @click="$router.push('/admin/products/create')" class="px-2 py-1 text-white bg-red-500 rounded">Create Product</button>
       </div>
+
+      <ui-table :header="headerFields" :content="products" :loading="false">
+         <template #body>
+            <tr class="hover:bg-gray-200" v-for="({id, name, price, company, category}) of products" :key="id">
+               <ui-table-td>{{ id }}</ui-table-td>
+               <ui-table-td>{{ name }}</ui-table-td>
+               <ui-table-td>{{ price }}</ui-table-td>
+               <ui-table-td>{{ company.name }}</ui-table-td>
+               <ui-table-td>{{ category.name }}</ui-table-td>
+               <ui-table-td>6</ui-table-td>
+            </tr>
+         </template>
+         <template slot="action" slot-scope="{ item }">
+            <button class="px-2 py-1 text-white bg-green-500 rounded">Edit</button>
+            <button
+               class="px-2 py-1 text-white bg-red-500 rounded"
+               :id="`delete-${item.id}`"
+            >Delete</button>
+         </template>
+      </ui-table>
    </div>
 </template>
 
 <script>
-export default {
 
-   
+import UiTable from '~/components/ui/UiTable.vue'
+import UiTableTd from '~/components/ui/UiTableTd.vue'
+import CrudMixin from '~/mixins/CrudMixin'
+
+export default {
+   components: { UiTable, UiTableTd },   
+
+   mixins: [CrudMixin],
+
+   async asyncData({ app }) {
+      const { data } = await app.$axios.get('/api/admin/products')
+
+      return {
+         products: data.data
+      }
+   },
+
+   data: () => ({
+      headerFields: ['#', 'Name', 'Price', 'Company', 'Category', 'Actions'],
+      products: [],
+      crudName: 'company',
+   }),
 }
 </script>

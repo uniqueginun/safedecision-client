@@ -7,10 +7,14 @@
          </tr>
       </thead>
       <tbody>
-         <tr class="hover:bg-gray-200" v-for="(item, index) of content" :key="index">
-            <ui-table-td v-for="(field, key) of Object.keys(item)" :key="key">{{ item[field] }}</ui-table-td>
-            <ui-table-td><slot name="action" :item="item"></slot></ui-table-td>
-         </tr>
+         <slot name="body">
+            <tr class="hover:bg-gray-200" v-for="(item, index) of content" :key="index">
+               <ui-table-td v-for="(field, key) of Object.keys(item)" :key="key">{{ item[field] }}</ui-table-td>
+               <ui-table-td>
+                  <slot name="action" :item="item"></slot>
+               </ui-table-td>
+            </tr>
+         </slot>
          <tr v-if="noContent">
             <td :colspan="header.length" class="text-center">No content</td>
          </tr>

@@ -1,6 +1,26 @@
 const urlPrefix = '/api/admin/companies';
 
+export const state = () => ({
+   companies: []
+})
+
+export const getters = {
+   getCompanies: state => state.companies,
+}
+
+export const mutations = {
+   setCompanies(state, companies) {
+      state.companies = companies
+   },
+}
+
 export const actions = {
+
+   async fetchCompanies({ commit }) {
+      const companies = await this.$axios.$get(urlPrefix)
+      commit('setCompanies', companies)
+   },
+
    destroy(_, id) {
       return this.$axios.delete(`${urlPrefix}/${id}`);
    },

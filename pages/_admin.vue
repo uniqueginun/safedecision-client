@@ -18,8 +18,7 @@ export default {
 
    computed: {
       pageTitle() {
-         const routeName = this.$route.name;
-         return routeName.replace('-', ' / ');
+         return this.$route.name.split('.').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ').replace(/\b\w/g, l => l.toUpperCase()).replaceAll('-', ' / ');
       }
    },
 }
