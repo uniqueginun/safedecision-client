@@ -8,5 +8,9 @@ export const actions = {
       }
 
       return this.$axios.post(urlPrefix, product);
+   },
+
+   destroy(_, id) {
+      return this.$axios.delete(`${urlPrefix}/${id}`);
    }
 }
