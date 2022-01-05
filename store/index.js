@@ -51,7 +51,7 @@ export const actions = {
    async fetchProducts({ commit, getters }) {
       commit('setLoadingProducts', true)
 
-      const products = await this.$axios.$get('/api/admin/productsList', {
+      const products = await this.$axios.$get('/api/productsList', {
          params: getters.filters
       })
 
@@ -60,13 +60,13 @@ export const actions = {
    },
 
    async fetchCompanies({ commit }) {
-      const companies = await this.$axios.$get('/api/admin/companies')
+      const companies = await this.$axios.$get('/api/companies')
       commit('setCompanies', companies)
       commit('setLoadingCompanies', false)
    },
 
    async fetchCategories({ commit }) {
-      const categories = await this.$axios.$get('/api/admin/categories?simple=true')
+      const categories = await this.$axios.$get('/api/categories?simple=true')
       commit('setCategories', categories)
       commit('setLoadingCategories', false)
    },
