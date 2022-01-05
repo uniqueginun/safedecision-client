@@ -12,7 +12,7 @@
          </button>
       </h3>
 
-      <div class="pt-6" id="filter-section-1">
+      <div class="pt-6" id="filter-section-1" v-if="! loadingCategories">
          <div class="space-y-4" v-if="false">
             <signle-category-filter
                v-for="cat of categories"
@@ -37,6 +37,7 @@
             </treeselect>
          </div>
       </div>
+      <div class="pt-6" id="filter-section-1" v-else>Loading...</div>
    </div>
 </template>
 

@@ -23,7 +23,9 @@ export default {
       ...mapGetters({
          companies: 'companies',
          categories: 'categories',
-         filters: 'filters'
+         filters: 'filters',
+         loadingCompanies: 'loadingCompanies',
+         loadingCategories: 'loadingCategories',
       }),
    },
 

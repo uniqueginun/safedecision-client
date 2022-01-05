@@ -41,7 +41,7 @@ export default {
       isOpen: false,
       activeClass: 'bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100',
       inactiveClass: 'border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100',
-      links: ['dashboard','companies','categories','products']
+      links: ['companies','categories','products']
    }),
 
    methods: {

@@ -12,7 +12,7 @@
          </button>
       </h3>
       <div class="pt-6" id="filter-section-0">
-         <div class="space-y-4">
+         <div class="space-y-4" v-if="! loadingCompanies">
             <div class="flex items-center" v-for="{id, name, products_count} of companies" :key="id">
                <input
                   :id="`filter-company-${id}`"
@@ -24,6 +24,7 @@
                <label :for="`filter-company-${id}`" class="ml-3 text-sm text-gray-600">{{ name }} [{{ products_count }}]</label>
             </div>
          </div>
+         <div v-else>Loading...</div>
       </div>
    </div>
 </template>

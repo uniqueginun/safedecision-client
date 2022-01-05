@@ -1,6 +1,8 @@
 
 export const state = () => ({
    loadingProducts: true,
+   loadingCompanies: true,
+   loadingCategories: true,
    products: [],
    companies: [],
    categories: [],
@@ -13,6 +15,8 @@ export const state = () => ({
 
 export const getters = {
    loadingProducts: state => state.loadingProducts,
+   loadingCompanies: state => state.loadingCompanies,
+   loadingCategories: state => state.loadingCategories,
    products: state => state.products,
    companies: state => state.companies,
    categories: state => state.categories,
@@ -22,6 +26,12 @@ export const getters = {
 export const mutations = {
    setLoadingProducts(state, loading) {
       state.loadingProducts = loading
+   },
+   setLoadingCompanies(state, loading) {
+      state.loadingCompanies = loading
+   },
+   setLoadingCategories(state, loading) { 
+      state.loadingCategories = loading
    },
    setProducts(state, products) {
       state.products = products
@@ -52,11 +62,13 @@ export const actions = {
    async fetchCompanies({ commit }) {
       const companies = await this.$axios.$get('/api/admin/companies')
       commit('setCompanies', companies)
+      commit('setLoadingCompanies', false)
    },
 
    async fetchCategories({ commit }) {
       const categories = await this.$axios.$get('/api/admin/categories?simple=true')
       commit('setCategories', categories)
+      commit('setLoadingCategories', false)
    },
 }
 
