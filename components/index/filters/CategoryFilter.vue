@@ -24,14 +24,17 @@
             <treeselect
                :options="categories"
                v-model="selectedItems"
-               :multiple="true"
                :clearable="true"
                :searchable="true"
-               :flat="true"
                :default-expand-level="1"
                :alwaysOpen="true"
                openDirection="below"
-            />
+            >
+               <label slot="option-label" slot-scope="{ node, labelClassName }" :class="labelClassName">
+                  {{ node.label }}
+                  <span v-if="node.products_count" >({{ node.products_count }})</span>
+               </label>
+            </treeselect>
          </div>
       </div>
    </div>
@@ -44,6 +47,7 @@ import FilterMixin from '~/mixins/FilterMixin'
 
 export default {
    components: { SignleCategoryFilter, Treeselect },
+   
    mixins: [FilterMixin],
 
    data() {
