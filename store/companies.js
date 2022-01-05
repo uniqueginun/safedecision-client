@@ -1,16 +1,16 @@
 const urlPrefix = '/api/admin/companies';
 
 export const state = () => ({
-   companies: []
+   companiesList: []
 })
 
 export const getters = {
-   getCompanies: state => state.companies,
+   getCompanies: state => state.companiesList,
 }
 
 export const mutations = {
    setCompanies(state, companies) {
-      state.companies = companies
+      state.companiesList = companies
    },
 }
 

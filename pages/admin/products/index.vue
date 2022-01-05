@@ -1,10 +1,7 @@
 <template>
    <div class="mt-4">
       <div class="p-4">
-         <button
-            @click="$router.push('/admin/products/create')"
-            class="px-2 py-1 text-white bg-red-500 rounded"
-         >Create Product</button>
+         <a class="btn btn-danger" href="/admin/products/create">Create Product</a>
       </div>
 
       <ui-table :header="headerFields" :content="products" :loading="false">

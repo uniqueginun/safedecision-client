@@ -1,12 +1,16 @@
 const categoriesUrlPrefix = '/api/admin/categories';
 
 export const state = () => ({
-   categories: []
+   categoriesList: []
 })
+
+export const getters = {
+   getCategories: state => state.categoriesList,
+}
 
 export const mutations = {
    setCategories(state, categories) {
-      state.categories = categories
+      state.categoriesList = categories
    },
 }
 
@@ -27,8 +31,4 @@ export const actions = {
    destroy(_, id) {
       return this.$axios.$delete(`${categoriesUrlPrefix}/${id}`)
    }
-}
-
-export const getters = {
-   getCategories: state => state.categories,
 }

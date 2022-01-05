@@ -22,7 +22,7 @@
          <div class="relative mt-2 rounded-md shadow-sm">
             <treeselect
                v-model="form.category_id"
-               :options="categories"
+               :options="categoriesList"
                :clearable="true"
                :searchable="true"
                :close-on-select="true"
@@ -36,13 +36,18 @@
          <div class="relative mt-2 rounded-md shadow-sm">
             <select
                v-model="form.company_id"
-               class="block w-full px-3 py-2 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-40 focus:ring-indigo-500 focus:border-indigo-600">
-               <option value="">Select company</option>
-               <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.name }}</option>
-               </select>
+               class="block w-full px-3 py-2 mt-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-40 focus:ring-indigo-500 focus:border-indigo-600"
+            >
+               <option value>Select company</option>
+               <option
+                  v-for="company in companiesList"
+                  :key="company.id"
+                  :value="company.id"
+               >{{ company.name }}</option>
+            </select>
          </div>
       </div>
-      
+
       <div class="px-5 pb-3 text-gray-700 bg-gray-200 border-b">
          <label class="text-xs">Description</label>
 
@@ -54,9 +59,11 @@
          </div>
       </div>
 
-
       <div class="px-5 pb-3 text-gray-700 bg-gray-200 border-b">
-         <label class="text-xs">Price (<span class="font-sm font-bold text-red-600"> enter price in halalas </span>) </label>
+         <label class="text-xs">
+            Price (
+            <span class="font-sm font-bold text-red-600">enter price in halalas</span>)
+         </label>
 
          <div class="relative mt-2 rounded-md shadow-sm">
             <input
@@ -106,12 +113,9 @@ export default {
    },
 
    computed: {
-      ...mapGetters('categories', {
-         categories: 'getCategories',
-      }),
-
-      ...mapGetters('companies', {
-         companies: 'getCompanies',
+      ...mapGetters({
+         companiesList: 'companies/getCompanies',
+         categoriesList: 'categories/getCategories',
       }),
 
       formTitle() {
@@ -128,16 +132,10 @@ export default {
    },
 
    methods: {
-      ...mapActions('categories', {
-         fetchCategories: 'fetchCategories',
-      }),
-
-      ...mapActions('companies', {
-         fetchCompanies: 'fetchCompanies',
-      }),
-
-      ...mapActions('products', {
-         createOrupdateProduct: 'createOrupdateProduct',
+      ...mapActions({
+         fetchCategories: 'categories/fetchCategories',
+         fetchCompanies: 'companies/fetchCompanies',
+         createOrupdateProduct: 'products/createOrupdateProduct',
       }),
 
       resetForm() {

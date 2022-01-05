@@ -5,10 +5,10 @@
 </template>
 
 <script>
+
 import CreateProductForm from '~/components/products/CreateForm.vue'
 
 export default {
-  components: { CreateProductForm },
-   
+   components: { CreateProductForm },
 }
 </script>
